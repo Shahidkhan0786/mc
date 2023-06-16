@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: posts-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts
+  template:
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+        - name: posts
+          image: shahid78600/blog-posts:latest
+          ports:
+            - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-clusterip-srv
+spec:
+  selector:
+    app: posts
+  type: ClusterIP
+  ports:
+  - name: posts
+    protocol: TCP
+    port: 8001
+    targetPort: 8001
+
+
+    
